@@ -1,60 +1,25 @@
 # 🤖 n8n AI Automations for Everyday Life
 
+![5 n8n AI automations: HR resume screening, job application evaluation, Gmail auto-responder, phishing analyzer, Instagram content studio](assets/cover.png)
+
 Ready-to-import **n8n** workflows that use AI to save time and stay safe online.
 Each workflow has a big banner and a plain-English description on every section of the canvas, so anyone can understand how it works.
 
 | # | Workflow | What it does | Needs |
 |---|----------|--------------|-------|
-| 1 | [Gmail AI Auto-Responder](workflows/gmail-ai-auto-responder.json) | Reads new emails, decides if they need a reply, and saves a draft reply in the same thread | Gmail, OpenAI |
-| 2 | [AI Suspicious Email Analyzer](workflows/suspicious-email-ai-analyzer.json) | Scans new emails for phishing and sends you a color-coded risk report | Gmail, OpenAI |
-| 3 | [AI Resume Screening Assistant for HR](workflows/hr-resume-screening-assistant.json) | Screens CVs sent to the HR inbox against your job description and emails HR a scored scorecard | Gmail, OpenAI |
-| 4 | [AI Job Application & Candidate Evaluation](workflows/hr-job-application-evaluation.json) | Hosted application form → AI scores the CV → HR gets scorecard + CV by email, Slack / Teams / webhook alert, and a draft interview invitation | Gmail, OpenAI (Slack, Teams, Webhook, Sheets optional) |
+| 1 | [AI Resume Screening Assistant for HR](workflows/hr-resume-screening-assistant.json) | Screens CVs sent to the HR inbox against your job description and emails HR a scored scorecard | Gmail, OpenAI |
+| 2 | [AI Job Application & Candidate Evaluation](workflows/hr-job-application-evaluation.json) | Hosted application form → AI scores the CV → HR gets scorecard + CV by email, Slack / Teams / webhook alert, and a draft interview invitation | Gmail, OpenAI (Slack, Teams, Webhook, Sheets optional) |
+| 3 | [Gmail AI Auto-Responder](workflows/gmail-ai-auto-responder.json) | Reads new emails, decides if they need a reply, and saves a draft reply in the same thread | Gmail, OpenAI |
+| 4 | [AI Suspicious Email Analyzer](workflows/suspicious-email-ai-analyzer.json) | Scans new emails for phishing and sends you a color-coded risk report | Gmail, OpenAI |
 | 5 | [Daily Content Studio: AI Instagram Posts](workflows/instagram-daily-content-studio.json) | Reads public trend feeds, invents an original post, generates the image with AI, checks quality, asks for your approval and publishes to Instagram | OpenAI, Replicate, Instagram Graph API, Gmail (Telegram, Slack, Teams, Webhook optional) |
 
 More automations coming soon. ⭐ Star the repo to follow along.
 
 ---
 
-## 1. Gmail AI Auto-Responder
+## 1. AI Resume Screening Assistant for HR
 
-```mermaid
-flowchart LR
-    A[📥 New email] --> B[🧹 Clean data]
-    B --> C{Real sender?}
-    C -- no-reply --> X1[Skip]
-    C -- yes --> D[🧠 AI: needs reply?]
-    D -- no --> X2[Skip]
-    D -- yes --> E[✍️ AI writes reply]
-    E --> F[📝 Draft saved in thread]
-```
-
-**Highlights**
-- Drafts only. Nothing is ever sent without you.
-- Ignores no-reply senders, promotions and social mail.
-- Replies in the sender's language, adds both options for yes/no questions, and uses `[PLACEHOLDERS]` when it does not know an answer.
-- AI and Gmail nodes retry 3 times on failure.
-
-## 2. AI Suspicious Email Analyzer
-
-```mermaid
-flowchart LR
-    A[📥 New email] --> B[⚙️ Config]
-    B --> C[🔍 Collect evidence<br/>SPF · DKIM · DMARC · links · urgency]
-    C --> D[🧠 AI verdict + red flags]
-    D --> E[📊 Build risk report<br/>0-100 score]
-    E --> F{Score ≥ 40?}
-    F -- yes --> G[🚨 Email alert to you]
-    F -- no --> H[✅ Stay quiet]
-```
-
-**Highlights**
-- Combines hard evidence (email authentication results, Reply-To mismatch, IP/shortened/look-alike links, pressure wording) with an AI verdict.
-- Final score = 70% AI + 30% automated checks. 🟢 LOW 0-39, 🟠 MEDIUM 40-69, 🔴 HIGH 70-100.
-- Links in the report are **defanged** (`hxxp://example[.]com`) so nobody clicks by accident.
-- If the AI is unavailable, it falls back to the automated score instead of failing.
-- The email is treated as untrusted data, so instructions hidden inside it cannot hijack the AI.
-
-## 3. AI Resume Screening Assistant for HR
+![AI Resume Screening Assistant for HR workflow in n8n](assets/1-resume.png)
 
 ```mermaid
 flowchart LR
@@ -80,7 +45,9 @@ flowchart LR
 
 _Inspired by the community "CV Screening with OpenAI" template idea; rebuilt for Gmail with scoring, fairness rules and error handling._
 
-## 4. AI Job Application & Candidate Evaluation
+## 2. AI Job Application & Candidate Evaluation
+
+![AI Job Application & Candidate Evaluation workflow in n8n](assets/2-jobapp.png)
 
 ```mermaid
 flowchart LR
@@ -105,9 +72,54 @@ flowchart LR
 - Human in the loop: shortlisted candidates get a Gmail **draft** invitation for HR to review and send. Nothing is auto-rejected or auto-booked.
 - Resilient: unreadable CVs and AI outages go to manual review; channel failures never block the HR email; AI and email steps retry.
 - Optional Google Sheets applicant log (node included, off by default).
-- Same compliance notes as workflow 3: disclose AI use, keep consent, set a retention period, and check local rules on automated hiring tools.
+- Same compliance notes as workflow 1: disclose AI use, keep consent, set a retention period, and check local rules on automated hiring tools.
+
+## 3. Gmail AI Auto-Responder
+
+![Gmail AI Auto-Responder workflow in n8n](assets/3-gmail.png)
+
+```mermaid
+flowchart LR
+    A[📥 New email] --> B[🧹 Clean data]
+    B --> C{Real sender?}
+    C -- no-reply --> X1[Skip]
+    C -- yes --> D[🧠 AI: needs reply?]
+    D -- no --> X2[Skip]
+    D -- yes --> E[✍️ AI writes reply]
+    E --> F[📝 Draft saved in thread]
+```
+
+**Highlights**
+- Drafts only. Nothing is ever sent without you.
+- Ignores no-reply senders, promotions and social mail.
+- Replies in the sender's language, adds both options for yes/no questions, and uses `[PLACEHOLDERS]` when it does not know an answer.
+- AI and Gmail nodes retry 3 times on failure.
+
+## 4. AI Suspicious Email Analyzer
+
+![AI Suspicious Email Analyzer workflow in n8n](assets/4-phish.png)
+
+```mermaid
+flowchart LR
+    A[📥 New email] --> B[⚙️ Config]
+    B --> C[🔍 Collect evidence<br/>SPF · DKIM · DMARC · links · urgency]
+    C --> D[🧠 AI verdict + red flags]
+    D --> E[📊 Build risk report<br/>0-100 score]
+    E --> F{Score ≥ 40?}
+    F -- yes --> G[🚨 Email alert to you]
+    F -- no --> H[✅ Stay quiet]
+```
+
+**Highlights**
+- Combines hard evidence (email authentication results, Reply-To mismatch, IP/shortened/look-alike links, pressure wording) with an AI verdict.
+- Final score = 70% AI + 30% automated checks. 🟢 LOW 0-39, 🟠 MEDIUM 40-69, 🔴 HIGH 70-100.
+- Links in the report are **defanged** (`hxxp://example[.]com`) so nobody clicks by accident.
+- If the AI is unavailable, it falls back to the automated score instead of failing.
+- The email is treated as untrusted data, so instructions hidden inside it cannot hijack the AI.
 
 ## 5. Daily Content Studio: AI Instagram Posts
+
+![Daily Content Studio: AI Instagram Posts workflow in n8n](assets/5-insta.png)
 
 ```mermaid
 flowchart LR
@@ -139,7 +151,7 @@ flowchart LR
 
 1. Open n8n, then **Workflows → Import from File** and choose a JSON from `workflows/`.
 2. Select your credentials (Gmail OAuth2 and OpenAI) on the nodes that ask for them.
-3. For workflows 2 to 5, set your own details (email, job description, etc.) in the **Config** node.
+3. For every workflow except the Gmail Auto-Responder, set your own details (email, job description, etc.) in the **Config** node.
 4. Activate the workflow and send yourself a test email.
 
 > No credentials are stored in these files. You connect your own accounts after importing.
