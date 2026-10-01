@@ -1,0 +1,499 @@
+{
+  "name": "Gmail AI Auto-Responder: Smart Draft Replies",
+  "nodes": [
+    {
+      "parameters": {
+        "width": 2120,
+        "height": 170,
+        "content": "# 📬 Gmail AI Auto-Responder\n### Email arrives → AI decides if it needs a reply → a ready-to-send draft appears in the same thread. Zero inbox stress. 🚀\n**Stack:** n8n + Gmail + OpenAI  |  **Runs:** every minute  |  **Safe:** drafts only, nothing is sent without you",
+        "color": 5
+      },
+      "id": "a1000001-0000-4000-8000-000000000001",
+      "name": "Banner",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -560,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "width": 580,
+        "height": 560,
+        "content": "## 🔵 1. New Email Arrives\nPolls Gmail every minute for new inbox mail.\nIgnores my own mail, promotions and social tabs.\nThen cleans the data (subject, body, sender, thread).",
+        "color": 3
+      },
+      "id": "a1000001-0000-4000-8000-000000000002",
+      "name": "Section 1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -560,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "width": 700,
+        "height": 560,
+        "content": "## 🧠 2. Does It Need a Reply?\nSkips no-reply / automated senders first.\nAI then judges: real question or request = reply, newsletter or marketing = skip.",
+        "color": 4
+      },
+      "id": "a1000001-0000-4000-8000-000000000003",
+      "name": "Section 2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        40,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "width": 420,
+        "height": 560,
+        "content": "## ✍️ 3. AI Writes the Reply\nProfessional, concise, business-casual.\nSame language as the sender.\nYes/No questions get two options. Unknowns become [PLACEHOLDERS].",
+        "color": 6
+      },
+      "id": "a1000001-0000-4000-8000-000000000004",
+      "name": "Section 3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        760,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "width": 360,
+        "height": 560,
+        "content": "## 🔴 4. Draft Saved in Thread\nReply lands as a Gmail draft inside the original conversation.\nReview, tweak, hit Send. ✅",
+        "color": 5
+      },
+      "id": "a1000001-0000-4000-8000-000000000005",
+      "name": "Section 4",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "width": 1200,
+        "height": 200,
+        "content": "## ⚙️ Setup (2 minutes)\n1. Open **Gmail Trigger** and **Gmail - Create Draft** and select your Google account.\n2. Open both **OpenAI** model nodes and select your OpenAI credential.\n3. Activate the workflow. Send yourself a test email from another address.\n**Resilience:** AI nodes retry 3x on failure; if the check fails, the email is safely skipped.",
+        "color": 3
+      },
+      "id": "a1000001-0000-4000-8000-000000000006",
+      "name": "Setup Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -560,
+        940
+      ]
+    },
+    {
+      "parameters": {
+        "simple": false,
+        "filters": {
+          "q": "-from:me in:inbox -category:promotions -category:social -category:forums"
+        },
+        "options": {},
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        }
+      },
+      "id": "a1000001-0000-4000-8000-000000000007",
+      "name": "Gmail Trigger",
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1,
+      "position": [
+        -500,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b0000001-0000-4000-8000-000000000001",
+              "name": "subject",
+              "value": "={{ $json.subject || '(no subject)' }}",
+              "type": "string"
+            },
+            {
+              "id": "b0000001-0000-4000-8000-000000000002",
+              "name": "body",
+              "value": "={{ ($json.text || $json.snippet || '').toString().slice(0, 4000) }}",
+              "type": "string"
+            },
+            {
+              "id": "b0000001-0000-4000-8000-000000000003",
+              "name": "from",
+              "value": "={{ ($json.headers && $json.headers.from) || ($json.from && $json.from.text) || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "b0000001-0000-4000-8000-000000000004",
+              "name": "threadId",
+              "value": "={{ $json.threadId }}",
+              "type": "string"
+            },
+            {
+              "id": "b0000001-0000-4000-8000-000000000005",
+              "name": "isAutomated",
+              "value": "={{ /no-?reply|do-?not-?reply|mailer-daemon|postmaster|notifications?@|alerts?@/i.test((($json.headers && $json.headers.from) || ($json.from && $json.from.text) || '')) }}",
+              "type": "boolean"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a1000001-0000-4000-8000-000000000008",
+      "name": "Prepare Email Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -260,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "c0000001-0000-4000-8000-000000000001",
+              "leftValue": "={{ $json.isAutomated }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "a1000001-0000-4000-8000-000000000009",
+      "name": "Is Real Sender?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        80,
+        560
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "a1000001-0000-4000-8000-000000000010",
+      "name": "Skip - Automated Sender",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        80,
+        760
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Subject: {{ $json.subject }}\nFrom: {{ $json.from }}\nMessage:\n{{ $json.body }}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "Your task is to assess if the email requires a personal response from the recipient.\nReturn JSON only, in the form {\"needsReply\": true} or {\"needsReply\": false}.\nRules:\n- Marketing, newsletters, promotions, receipts, notifications and automated messages: false.\n- A real person asking a question, making a request, or waiting for confirmation: true."
+            }
+          ]
+        }
+      },
+      "id": "a1000001-0000-4000-8000-000000000011",
+      "name": "Assess if message needs a reply",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.4,
+      "position": [
+        340,
+        560
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o-mini",
+        "options": {
+          "temperature": 0
+        }
+      },
+      "id": "a1000001-0000-4000-8000-000000000012",
+      "name": "OpenAI Chat (Classifier)",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        320,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "jsonSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"needsReply\": {\n      \"type\": \"boolean\"\n    }\n  },\n  \"required\": [\"needsReply\"]\n}"
+      },
+      "id": "a1000001-0000-4000-8000-000000000013",
+      "name": "JSON Parser",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1,
+      "position": [
+        480,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "c0000001-0000-4000-8000-000000000002",
+              "leftValue": "={{ $json.output && $json.output.needsReply === true }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "a1000001-0000-4000-8000-000000000014",
+      "name": "If Needs Reply",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        620,
+        560
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "a1000001-0000-4000-8000-000000000015",
+      "name": "Skip - No Reply Needed",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        620,
+        760
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Subject: {{ $('Prepare Email Data').item.json.subject }}\nFrom: {{ $('Prepare Email Data').item.json.from }}\nMessage:\n{{ $('Prepare Email Data').item.json.body }}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "You're a helpful personal assistant and your task is to draft replies on my behalf to my incoming emails. Whenever I provide some text from an email, return an appropriate draft reply for it and nothing else.\nEnsure that the reply is suitable for a professional email setting and addresses the topic in a clear, structured, and detailed manner.\nDo not make things up.\n\nDetailed instructions:\n- Be concise and maintain a business casual tone.\n- Start with \"Hello,\" and end with \"Best,\"\n- When replying to yes-no questions, draft 2 responses: one affirmative and one negative separated by \" - - - - - - - OR - - - - - - - \"\n- If you don't know an answer, leave placeholders like \"[YOUR_ANSWER_HERE]\".\n- Don't use any special formatting, only plain text.\n- Reply in the same language as the inbound email."
+            }
+          ]
+        }
+      },
+      "id": "a1000001-0000-4000-8000-000000000016",
+      "name": "Generate email reply",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.4,
+      "position": [
+        840,
+        560
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "options": {
+          "temperature": 0.4
+        }
+      },
+      "id": "a1000001-0000-4000-8000-000000000017",
+      "name": "OpenAI Chat (Writer)",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        860,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "subject": "={{ /^re:/i.test($('Prepare Email Data').item.json.subject) ? $('Prepare Email Data').item.json.subject : 'Re: ' + $('Prepare Email Data').item.json.subject }}",
+        "emailType": "html",
+        "message": "={{ ($json.text || '').replace(/\\n/g, '<br />\\n') }}",
+        "options": {
+          "threadId": "={{ $('Prepare Email Data').item.json.threadId }}",
+          "sendTo": "={{ $('Prepare Email Data').item.json.from }}"
+        }
+      },
+      "id": "a1000001-0000-4000-8000-000000000018",
+      "name": "Gmail - Create Draft",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1280,
+        560
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "Prepare Email Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Email Data": {
+      "main": [
+        [
+          {
+            "node": "Is Real Sender?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Real Sender?": {
+      "main": [
+        [
+          {
+            "node": "Assess if message needs a reply",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Skip - Automated Sender",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat (Classifier)": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Assess if message needs a reply",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Assess if message needs a reply",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Assess if message needs a reply": {
+      "main": [
+        [
+          {
+            "node": "If Needs Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Needs Reply": {
+      "main": [
+        [
+          {
+            "node": "Generate email reply",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Skip - No Reply Needed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat (Writer)": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Generate email reply",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate email reply": {
+      "main": [
+        [
+          {
+            "node": "Gmail - Create Draft",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "tags": []
+}

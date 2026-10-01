@@ -1,0 +1,1670 @@
+{
+  "name": "Daily Content Studio: AI Instagram Posts with Approval",
+  "nodes": [
+    {
+      "parameters": {
+        "width": 3640,
+        "height": 250,
+        "content": "# 📸✨ DAILY CONTENT STUDIO\n## Trend-inspired Instagram posts: ideated by AI, painted by AI, approved by you, published automatically\n`🔥 Trends` ➜ `💡 Idea` ➜ `🎨 AI Image` ➜ `🔍 Quality check` ➜ `✅ Your approval` ➜ `📸 Instagram` ➜ `🔔 Alerts`\n**Runs daily at 09:00**  •  **Original images, never copies**  •  **You stay in control**  •  Stack: n8n · OpenAI · Replicate (Flux) · Instagram Graph API",
+        "color": 4
+      },
+      "id": "f5000001-0000-4000-8000-000000000001",
+      "name": "Banner",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1060,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "width": 600,
+        "height": 600,
+        "content": "## 🧰 What you need\n- **OpenAI** API key (ideas + image quality check)\n- **Replicate** API token (Flux image model)\n- **Instagram Business or Creator** account linked to a Facebook Page, plus a Graph API access token with publishing permission\n- **Gmail** account (approval requests and alerts)\n- *Optional:* Telegram bot, Slack or Teams webhook\n\n🔐 Tokens live in n8n **Header Auth** credentials, never inside nodes.",
+        "color": 6
+      },
+      "id": "f5000001-0000-4000-8000-000000000002",
+      "name": "Needs Panel",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1060,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "width": 600,
+        "height": 640,
+        "content": "## 🛡️ Safety rails built in\n- **Original content only.** Trends are inspiration, never copied. (The old version scraped other people's Instagram posts; that is removed.)\n- **Human approval by default.** Auto mode only runs when the AI quality check passes and nothing is flagged.\n- **AI disclosure** line added to every caption.\n- No real people, logos or trademarks in prompts.\n- Last 30 themes remembered, so no repeats.\n- Every failure sends an alert. Nothing fails silently.\n\n*Follow Instagram's Community Guidelines and platform terms. API publishing has a daily limit set by Meta.*",
+        "color": 5
+      },
+      "id": "f5000001-0000-4000-8000-000000000003",
+      "name": "Safety Panel",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1060,
+        1060
+      ]
+    },
+    {
+      "parameters": {
+        "width": 600,
+        "height": 620,
+        "content": "## 🚀 Setup in 10 minutes\n1. Open **Config** and fill in your email, brand, niche, voice and Instagram account ID.\n2. Create two **Header Auth** credentials, name `Authorization`:\n   - Replicate: `Bearer r8_...`\n   - Instagram: `Bearer EAAB...`\n   and select them on the HTTP nodes.\n3. Select Gmail on the 2 Gmail nodes and OpenAI on 3 AI nodes.\n4. Click **Run Now (Test)** and approve the preview email.\n5. Activate. n8n must be reachable on a public HTTPS URL for the review link to work.\n\n*Theme memory only saves in active (production) runs.*",
+        "color": 3
+      },
+      "id": "f5000001-0000-4000-8000-000000000004",
+      "name": "Setup Panel",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1060,
+        1760
+      ]
+    },
+    {
+      "parameters": {
+        "width": 3000,
+        "height": 600,
+        "content": "## 🎬 ACT 1  ·  DISCOVER & CREATE",
+        "color": 2
+      },
+      "id": "f5000001-0000-4000-8000-000000000005",
+      "name": "Act 1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -420,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "width": 3000,
+        "height": 640,
+        "content": "## 🎞️ ACT 2  ·  CHECK & APPROVE",
+        "color": 5
+      },
+      "id": "f5000001-0000-4000-8000-000000000006",
+      "name": "Act 2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -420,
+        1060
+      ]
+    },
+    {
+      "parameters": {
+        "width": 3000,
+        "height": 620,
+        "content": "## 🚀 ACT 3  ·  PUBLISH & TELL EVERYONE",
+        "color": 3
+      },
+      "id": "f5000001-0000-4000-8000-000000000007",
+      "name": "Act 3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -420,
+        1760
+      ]
+    },
+    {
+      "parameters": {
+        "width": 520,
+        "height": 150,
+        "content": "### ⏰ 1. Wake up\nRuns daily at 09:00 (edit the cron) or press **Run Now**.\n**Config** is your control panel: niche, voice, image style, publish mode, alert channels.",
+        "color": 7
+      },
+      "id": "f5000001-0000-4000-8000-000000000010",
+      "name": "Card 1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -340,
+        490
+      ]
+    },
+    {
+      "parameters": {
+        "width": 640,
+        "height": 150,
+        "content": "### 🔥 2. Read the trends\nPulls headlines from public RSS feeds you choose (Reddit, Google Trends, blogs).\nFeed blocked or empty? The flow carries on with evergreen ideas.",
+        "color": 7
+      },
+      "id": "f5000001-0000-4000-8000-000000000011",
+      "name": "Card 2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        200,
+        490
+      ]
+    },
+    {
+      "parameters": {
+        "width": 640,
+        "height": 150,
+        "content": "### 💡 3. Dream up the post\nAI invents ONE original idea: hook, caption, hashtags, alt text and an image prompt. It avoids your last 30 themes.",
+        "color": 7
+      },
+      "id": "f5000001-0000-4000-8000-000000000012",
+      "name": "Card 3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        860,
+        490
+      ]
+    },
+    {
+      "parameters": {
+        "width": 360,
+        "height": 150,
+        "content": "### 🎨 4. Paint the image\nFlux (via Replicate) renders a 4:5 JPG.",
+        "color": 7
+      },
+      "id": "f5000001-0000-4000-8000-000000000013",
+      "name": "Card 4",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1520,
+        490
+      ]
+    },
+    {
+      "parameters": {
+        "width": 900,
+        "height": 130,
+        "content": "### 🔍 5. AI quality check\nA vision model checks: matches the idea, no text or logos, no real people, no artifacts. Unreadable result? A human decides.",
+        "color": 7
+      },
+      "id": "f5000001-0000-4000-8000-000000000014",
+      "name": "Card 5",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -340,
+        1150
+      ]
+    },
+    {
+      "parameters": {
+        "width": 300,
+        "height": 130,
+        "content": "### 🚦 6. Route\nAuto only if mode = auto, quality passed and no flags.",
+        "color": 7
+      },
+      "id": "f5000001-0000-4000-8000-000000000015",
+      "name": "Card 6",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        580,
+        1150
+      ]
+    },
+    {
+      "parameters": {
+        "width": 1100,
+        "height": 130,
+        "content": "### ✅ 7. Your approval\nYou get an email with the image, caption and a **Review** button (a form: Approve, Reject, or edit the caption). No answer in time = skipped.",
+        "color": 7
+      },
+      "id": "f5000001-0000-4000-8000-000000000016",
+      "name": "Card 7",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        900,
+        1150
+      ]
+    },
+    {
+      "parameters": {
+        "width": 420,
+        "height": 130,
+        "content": "### 📦 8. Finalize\nApplies your caption edit and the AI disclosure line.",
+        "color": 7
+      },
+      "id": "f5000001-0000-4000-8000-000000000017",
+      "name": "Card 8",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2040,
+        1150
+      ]
+    },
+    {
+      "parameters": {
+        "width": 520,
+        "height": 140,
+        "content": "### 📤 9. Create container\nSends image URL, caption and alt text to the Instagram Graph API.",
+        "color": 7
+      },
+      "id": "f5000001-0000-4000-8000-000000000018",
+      "name": "Card 9",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -340,
+        1850
+      ]
+    },
+    {
+      "parameters": {
+        "width": 640,
+        "height": 140,
+        "content": "### ⏳ 10. Wait and verify\nWaits 15 seconds, then checks the container status is FINISHED.",
+        "color": 7
+      },
+      "id": "f5000001-0000-4000-8000-000000000019",
+      "name": "Card 10",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        200,
+        1850
+      ]
+    },
+    {
+      "parameters": {
+        "width": 700,
+        "height": 140,
+        "content": "### 📸 11. Publish\nPublishes the post and fetches its link.",
+        "color": 7
+      },
+      "id": "f5000001-0000-4000-8000-000000000020",
+      "name": "Card 11",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        860,
+        1850
+      ]
+    },
+    {
+      "parameters": {
+        "width": 960,
+        "height": 140,
+        "content": "### 🔔 12. Tell everyone\nEmail plus optional Telegram, Slack, Teams or webhook. Every outcome (approval request, published, skipped, failed) sends a message.",
+        "color": 7
+      },
+      "id": "f5000001-0000-4000-8000-000000000021",
+      "name": "Card 12",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1600,
+        1850
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 9 * * *"
+            }
+          ]
+        }
+      },
+      "id": "f5000001-0000-4000-8000-000000000030",
+      "name": "Daily Schedule",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -300,
+        640
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "f5000001-0000-4000-8000-000000000031",
+      "name": "Run Now (Test)",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -300,
+        820
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f5000001-0000-4000-8000-000000000310",
+              "name": "ownerEmail",
+              "value": "YOUR_EMAIL@gmail.com",
+              "type": "string"
+            },
+            {
+              "id": "f5000001-0000-4000-8000-000000000311",
+              "name": "brandName",
+              "value": "YourBrand",
+              "type": "string"
+            },
+            {
+              "id": "f5000001-0000-4000-8000-000000000312",
+              "name": "niche",
+              "value": "3D art and Blender, isometric miniature scenes",
+              "type": "string"
+            },
+            {
+              "id": "f5000001-0000-4000-8000-000000000313",
+              "name": "audience",
+              "value": "3D artists, designers and creative hobbyists",
+              "type": "string"
+            },
+            {
+              "id": "f5000001-0000-4000-8000-000000000314",
+              "name": "brandVoice",
+              "value": "friendly, inspiring and concise",
+              "type": "string"
+            },
+            {
+              "id": "f5000001-0000-4000-8000-000000000315",
+              "name": "imageStyle",
+              "value": "stylized isometric 3D miniature render, clean edges, soft even lighting, pure white background",
+              "type": "string"
+            },
+            {
+              "id": "f5000001-0000-4000-8000-000000000316",
+              "name": "aspectRatio",
+              "value": "4:5",
+              "type": "string"
+            },
+            {
+              "id": "f5000001-0000-4000-8000-000000000317",
+              "name": "hashtagCount",
+              "value": 10,
+              "type": "number"
+            },
+            {
+              "id": "f5000001-0000-4000-8000-000000000318",
+              "name": "aiDisclosure",
+              "value": "🎨 Image created with AI",
+              "type": "string"
+            },
+            {
+              "id": "f5000001-0000-4000-8000-000000000319",
+              "name": "trendFeeds",
+              "value": "https://www.reddit.com/r/blender/top/.rss?t=day, https://trends.google.com/trending/rss?geo=IN",
+              "type": "string"
+            },
+            {
+              "id": "f5000001-0000-4000-8000-000000000320",
+              "name": "publishMode",
+              "value": "approval",
+              "type": "string"
+            },
+            {
+              "id": "f5000001-0000-4000-8000-000000000321",
+              "name": "approvalHours",
+              "value": 12,
+              "type": "number"
+            },
+            {
+              "id": "f5000001-0000-4000-8000-000000000322",
+              "name": "instagramAccountId",
+              "value": "YOUR_INSTAGRAM_BUSINESS_ACCOUNT_ID",
+              "type": "string"
+            },
+            {
+              "id": "f5000001-0000-4000-8000-000000000323",
+              "name": "graphApiVersion",
+              "value": "v23.0",
+              "type": "string"
+            },
+            {
+              "id": "f5000001-0000-4000-8000-000000000324",
+              "name": "telegramBotToken",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "f5000001-0000-4000-8000-000000000325",
+              "name": "telegramChatId",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "f5000001-0000-4000-8000-000000000326",
+              "name": "slackWebhookUrl",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "f5000001-0000-4000-8000-000000000327",
+              "name": "teamsWebhookUrl",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "f5000001-0000-4000-8000-000000000328",
+              "name": "webhookUrl",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f5000001-0000-4000-8000-000000000032",
+      "name": "Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -60,
+        720
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const cfg = $('Config').first().json;\nconst urls = String(cfg.trendFeeds || '').split(/[,\\n]/).map((u) => u.trim()).filter((u) => /^https:\\/\\//i.test(u)).slice(0, 5);\nif (!urls.length) return [{ json: { url: '' } }];\nreturn urls.map((url) => ({ json: { url } }));"
+      },
+      "id": "f5000001-0000-4000-8000-000000000033",
+      "name": "Split Feed URLs",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        180,
+        720
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0 (compatible; DailyContentStudio/1.0)"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 8000,
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "id": "f5000001-0000-4000-8000-000000000034",
+      "name": "Fetch Trend Feed",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        420,
+        720
+      ],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const cfg = $('Config').first().json;\nconst clean = (t) => String(t).replace(/<!\\[CDATA\\[|\\]\\]>/g, '').replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '\"').replace(/&#39;|&apos;/g, \"'\").replace(/\\s+/g, ' ').trim();\n\nlet ok = 0, failed = 0;\nconst trends = [];\nfor (const it of $input.all()) {\n  const raw = it.json.data;\n  if (typeof raw !== 'string' || !/<(rss|feed)[\\s>]/i.test(raw)) { failed++; continue; }\n  const titles = [...raw.matchAll(/<title[^>]*>([\\s\\S]*?)<\\/title>/gi)].map((m) => clean(m[1]));\n  const list = titles.slice(1).filter((t) => t.length > 3 && t.length < 200).slice(0, 8);\n  if (list.length) { ok++; trends.push(...list); } else { failed++; }\n}\nconst uniqueTrends = [...new Set(trends)].slice(0, 20);\n\nconst sd = $getWorkflowStaticData('global');\nconst recent = Array.isArray(sd.recentThemes) ? sd.recentThemes.slice(-20) : [];\nconst today = new Date().toISOString().slice(0, 10);\n\nconst aiInput =\n  'TODAY: ' + today + '\\n' +\n  'BRAND: ' + cfg.brandName + '\\n' +\n  'NICHE: ' + cfg.niche + '\\n' +\n  'AUDIENCE: ' + cfg.audience + '\\n' +\n  'BRAND VOICE: ' + cfg.brandVoice + '\\n' +\n  'NUMBER OF HASHTAGS: ' + (Number(cfg.hashtagCount) || 10) + '\\n\\n' +\n  'PUBLIC TREND SIGNALS (headlines from RSS feeds, for inspiration only, may be empty):\\n' + (uniqueTrends.length ? uniqueTrends.map((t) => '- ' + t).join('\\n') : '(none available today, use evergreen or seasonal ideas)') + '\\n\\n' +\n  'RECENT THEMES ALREADY POSTED (do not repeat):\\n' + (recent.length ? recent.map((t) => '- ' + t).join('\\n') : '(none yet)');\n\nreturn [{ json: { aiInput, trends: uniqueTrends, feedsOk: ok, feedsFailed: failed, recentThemes: recent } }];"
+      },
+      "id": "f5000001-0000-4000-8000-000000000035",
+      "name": "Collect Trend Signals",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        720
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.aiInput }}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "You are the content strategist for an Instagram account. Each day you create ONE original post.\nRules:\n- Use the trend signals only as loose inspiration for a theme or mood. Never copy, reproduce or closely imitate any specific person's post, caption, artwork or brand. The idea must be original.\n- Ignore trends about tragedies, disasters, politics, health, finance, crime or anything sensitive. If you must avoid all trends, use an evergreen or seasonal idea for the niche.\n- Do not repeat any theme listed under RECENT THEMES.\n- theme: a short title (max 8 words). trendAngle: which signal inspired it, or 'evergreen'.\n- hook: one scroll-stopping first line (max 90 characters). caption: 2-4 short sentences in the brand voice, ending with a friendly question for the audience. No hashtags in the caption. No fake claims, no engagement bait such as 'tag 3 friends'.\n- hashtags: exactly the requested number, relevant, no spaces, without the # sign, mix of broad and niche.\n- altText: one plain sentence describing the image for screen readers (max 200 characters).\n- imagePrompt: a vivid, specific, original description of ONE scene or object for an image model (max 90 words). No text or letters in the image, no logos, no brand names, no celebrities or real people, no copyrighted characters.\n- safetyFlags.realPersonOrBrand is true if the idea refers to a real person, brand or trademark. safetyFlags.sensitiveTopic is true if it touches a sensitive topic.\nReturn JSON only."
+            }
+          ]
+        }
+      },
+      "id": "f5000001-0000-4000-8000-000000000036",
+      "name": "AI Content Strategist",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.4,
+      "position": [
+        900,
+        720
+      ],
+      "onError": "continueRegularOutput",
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "options": {
+          "temperature": 0.8
+        }
+      },
+      "id": "f5000001-0000-4000-8000-000000000037",
+      "name": "OpenAI Chat",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        860,
+        900
+      ]
+    },
+    {
+      "parameters": {
+        "jsonSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"theme\": {\n      \"type\": \"string\"\n    },\n    \"trendAngle\": {\n      \"type\": \"string\"\n    },\n    \"hook\": {\n      \"type\": \"string\"\n    },\n    \"caption\": {\n      \"type\": \"string\"\n    },\n    \"hashtags\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"string\"\n      }\n    },\n    \"altText\": {\n      \"type\": \"string\"\n    },\n    \"imagePrompt\": {\n      \"type\": \"string\"\n    },\n    \"safetyFlags\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"realPersonOrBrand\": {\n          \"type\": \"boolean\"\n        },\n        \"sensitiveTopic\": {\n          \"type\": \"boolean\"\n        }\n      },\n      \"required\": [\n        \"realPersonOrBrand\",\n        \"sensitiveTopic\"\n      ]\n    }\n  },\n  \"required\": [\n    \"theme\",\n    \"trendAngle\",\n    \"hook\",\n    \"caption\",\n    \"hashtags\",\n    \"altText\",\n    \"imagePrompt\",\n    \"safetyFlags\"\n  ]\n}"
+      },
+      "id": "f5000001-0000-4000-8000-000000000038",
+      "name": "JSON Parser",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1,
+      "position": [
+        1020,
+        900
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const cfg = $('Config').first().json;\nconst sig = $('Collect Trend Signals').first().json;\nconst ai = $input.item.json.output || null;\n\nconst max = Math.min(30, Math.max(3, Number(cfg.hashtagCount) || 10));\nconst tags = ai && Array.isArray(ai.hashtags)\n  ? [...new Set(ai.hashtags.map((h) => String(h).replace(/[^\\p{L}\\p{N}_]/gu, '')).filter(Boolean))].slice(0, max).map((h) => '#' + h)\n  : [];\n\nconst ok = !!(ai && ai.imagePrompt && ai.caption && ai.theme);\nlet caption = '';\nif (ok) {\n  const tail = '\\n\\n' + (cfg.aiDisclosure ? cfg.aiDisclosure + '\\n\\n' : '') + tags.join(' ');\n  let body = (ai.hook ? ai.hook.trim() + '\\n\\n' : '') + String(ai.caption).trim();\n  const room = 2200 - tail.length;\n  if (body.length > room) body = body.slice(0, Math.max(0, room - 1)).trim() + '…';\n  caption = body + tail;\n}\nconst flags = ai && ai.safetyFlags ? ai.safetyFlags : {};\nconst forceApproval = !!(flags.realPersonOrBrand || flags.sensitiveTopic);\n\nreturn { json: {\n  ok, theme: ok ? String(ai.theme) : '', trendAngle: ok ? String(ai.trendAngle || '') : '',\n  caption, altText: ok ? String(ai.altText || '').slice(0, 1000) : '',\n  imagePrompt: ok ? String(ai.imagePrompt).trim() + '. Style: ' + cfg.imageStyle + '. No text, no letters, no logos, no watermarks, no real people.' : '',\n  forceApproval, feedsOk: sig.feedsOk, feedsFailed: sig.feedsFailed\n} };"
+      },
+      "id": "f5000001-0000-4000-8000-000000000039",
+      "name": "Package Post",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1140,
+        720
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "f5000001-0000-4000-8000-000000000540",
+              "leftValue": "={{ $json.ok }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "f5000001-0000-4000-8000-000000000040",
+      "name": "Idea Ready?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1380,
+        720
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.replicate.com/v1/models/black-forest-labs/flux-schnell/predictions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Prefer",
+              "value": "wait=60"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ input: { prompt: $json.imagePrompt, aspect_ratio: $('Config').first().json.aspectRatio, output_format: 'jpg', output_quality: 90, num_outputs: 1 } }) }}",
+        "options": {
+          "timeout": 100000
+        }
+      },
+      "id": "f5000001-0000-4000-8000-000000000041",
+      "name": "Generate Image (Flux)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1620,
+        720
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 3000,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const p = $('Package Post').first().json;\nconst r = $input.item.json;\nconst out = Array.isArray(r.output) ? r.output[0] : r.output;\nconst ok = !r.error && r.status === 'succeeded' && typeof out === 'string' && /^https:\\/\\//i.test(out);\nconst detail = r.error ? (r.error.message || JSON.stringify(r.error)) : (r.detail || r.status || '');\nreturn { json: Object.assign({}, p, { imageUrl: ok ? out : '', imageOk: ok, imageError: ok ? '' : String(detail).slice(0, 200) }) };"
+      },
+      "id": "f5000001-0000-4000-8000-000000000042",
+      "name": "Attach Image",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -300,
+        1500
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "f5000001-0000-4000-8000-000000000543",
+              "leftValue": "={{ $json.imageOk }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "f5000001-0000-4000-8000-000000000043",
+      "name": "Image OK?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -60,
+        1500
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "text": "=You are a strict visual QA reviewer for an Instagram post.\nThe image was meant to show: {{ $json.imagePrompt }}\n\nCheck: 1) it matches the concept; 2) no readable text, letters, logos, watermarks or trademarks; 3) no real or recognizable people and no distorted faces or hands; 4) nothing unsafe (nudity, violence, hate); 5) no obvious artifacts such as melted or duplicated shapes.\nReturn ONLY JSON like {\"pass\": true, \"issues\": [\"short issue\"]}. Set pass to true only if every check is fine.",
+        "inputType": "url",
+        "imageUrls": "={{ $json.imageUrl }}",
+        "options": {}
+      },
+      "id": "f5000001-0000-4000-8000-000000000044",
+      "name": "AI Quality Check",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        180,
+        1500
+      ],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const p = $('Attach Image').first().json;\nconst cfg = $('Config').first().json;\nlet known = false, pass = false, issues = [];\nconst raw = $input.item.json.content;\nif (typeof raw === 'string') {\n  try {\n    const m = raw.match(/\\{[\\s\\S]*\\}/);\n    const q = JSON.parse(m[0]);\n    known = typeof q.pass === 'boolean';\n    pass = q.pass === true;\n    issues = Array.isArray(q.issues) ? q.issues.slice(0, 5).map(String) : [];\n  } catch (e) { /* quality result unreadable, a human will decide */ }\n}\nconst auto = String(cfg.publishMode || '').toLowerCase() === 'auto' && known && pass && !p.forceApproval;\nreturn { json: Object.assign({}, p, { qualityKnown: known, qualityPass: pass, qualityIssues: issues, autoPublish: auto }) };"
+      },
+      "id": "f5000001-0000-4000-8000-000000000045",
+      "name": "Quality Gate",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        420,
+        1500
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "f5000001-0000-4000-8000-000000000546",
+              "leftValue": "={{ $json.autoPublish }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "f5000001-0000-4000-8000-000000000046",
+      "name": "Auto Publish?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        660,
+        1500
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const cfg = $('Config').first().json;\nconst p = $input.item.json;\nconst esc = (s) => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\"/g, '&quot;');\nlet formUrl = '';\ntry { formUrl = $execution.resumeFormUrl || ''; } catch (e) { formUrl = ''; }\nconst hours = Number(cfg.approvalHours) || 12;\n\nconst notes = [];\nif (!p.qualityKnown) notes.push('The AI quality check could not run, so please look at the image carefully.');\nif (p.qualityKnown && !p.qualityPass) notes.push('AI quality check flagged: ' + (p.qualityIssues.join('; ') || 'see image'));\nif (p.forceApproval) notes.push('The idea mentions a possible real person, brand or sensitive topic. Please double-check.');\nif (String(cfg.publishMode).toLowerCase() === 'auto' && !p.autoPublish) notes.push('Auto-publish was skipped because a safety check did not pass.');\n\nconst emailHtml =\n  '<div style=\"font-family:Arial,Helvetica,sans-serif;max-width:560px;margin:auto;border-radius:14px;overflow:hidden;border:1px solid #eee\">' +\n  '<div style=\"background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);color:#fff;padding:18px 22px\"><div style=\"font-size:12px;letter-spacing:1px\">DAILY CONTENT STUDIO</div><div style=\"font-size:22px;font-weight:bold\">📸 Your post is ready for review</div></div>' +\n  '<img src=\"' + esc(p.imageUrl) + '\" alt=\"Preview\" style=\"width:100%;display:block\">' +\n  '<div style=\"padding:18px 22px;font-size:14px;line-height:1.5;color:#222\">' +\n  '<p style=\"margin:0 0 6px\"><b>Theme:</b> ' + esc(p.theme) + '</p>' +\n  '<p style=\"white-space:pre-wrap;background:#fafafa;border-radius:8px;padding:12px;margin:0 0 12px\">' + esc(p.caption) + '</p>' +\n  (notes.length ? '<p style=\"color:#b3261e\"><b>Heads up:</b> ' + esc(notes.join(' ')) + '</p>' : '') +\n  (formUrl ? '<p style=\"text-align:center\"><a href=\"' + esc(formUrl) + '\" style=\"background:#833ab4;color:#fff;text-decoration:none;padding:12px 22px;border-radius:24px;display:inline-block;font-weight:bold\">Review and decide</a></p>' : '<p>Open the waiting execution in n8n to approve.</p>') +\n  '<p style=\"color:#777;font-size:12px\">You can approve, reject, or edit the caption. If you do nothing within ' + hours + ' hours the post is skipped.</p></div></div>';\n\nreturn { json: {\n  ownerEmail: cfg.ownerEmail, emailSubject: '📸 Approve today\\'s Instagram post: ' + p.theme, emailHtml,\n  kind: 'approval', title: '📸 Instagram post ready for your approval', text: 'Theme: ' + p.theme + '\\n' + (notes.length ? notes.join(' ') + '\\n' : '') + 'Open the review form to approve, reject or edit.',\n  link: formUrl, imageUrl: p.imageUrl\n} };"
+      },
+      "id": "f5000001-0000-4000-8000-000000000047",
+      "name": "Build Approval Request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        900,
+        1360
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.ownerEmail }}",
+        "subject": "={{ $json.emailSubject }}",
+        "emailType": "html",
+        "message": "={{ $json.emailHtml }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "f5000001-0000-4000-8000-000000000048",
+      "name": "Email Approval Request",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1140,
+        1360
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000
+    },
+    {
+      "parameters": {
+        "resume": "form",
+        "formTitle": "Review today's Instagram post",
+        "formDescription": "Choose Approve to publish right away. Paste a FULL caption below only if you want to replace the AI caption (keep your hashtags in it).",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Decision",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Approve and publish"
+                  },
+                  {
+                    "option": "Reject"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Edited caption (optional)",
+              "fieldType": "textarea",
+              "placeholder": "Leave empty to keep the AI caption"
+            }
+          ]
+        },
+        "limitWaitTime": true,
+        "limitType": "afterTimeInterval",
+        "resumeAmount": "={{ Number($('Config').first().json.approvalHours) || 12 }}",
+        "resumeUnit": "hours",
+        "options": {}
+      },
+      "id": "f5000001-0000-4000-8000-000000000049",
+      "name": "Wait for Approval",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1380,
+        1360
+      ],
+      "webhookId": "f5000001-0000-4000-8000-0000000000aa"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const p = $('Quality Gate').first().json;\nconst j = $input.item.json;\nconst decision = String(j['Decision'] || '').toLowerCase();\nreturn { json: Object.assign({}, p, {\n  approved: decision.startsWith('approve'), timedOut: !decision,\n  editedCaption: String(j['Edited caption (optional)'] || '').trim()\n}) };"
+      },
+      "id": "f5000001-0000-4000-8000-000000000050",
+      "name": "Decision Gate",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1620,
+        1360
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "f5000001-0000-4000-8000-000000000551",
+              "leftValue": "={{ $json.approved }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "f5000001-0000-4000-8000-000000000051",
+      "name": "Approved?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1860,
+        1360
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const cfg = $('Config').first().json;\nconst q = $('Quality Gate').first().json;\nlet caption = q.caption;\ntry {\n  const d = $('Decision Gate').first().json;\n  if (d && d.editedCaption) caption = d.editedCaption;\n} catch (e) { /* auto-publish path, no human edit */ }\nif (cfg.aiDisclosure && !caption.includes(cfg.aiDisclosure)) caption = caption + '\\n\\n' + cfg.aiDisclosure;\nreturn { json: { caption: caption.slice(0, 2200), imageUrl: q.imageUrl, altText: q.altText, theme: q.theme } };"
+      },
+      "id": "f5000001-0000-4000-8000-000000000052",
+      "name": "Finalize Post",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2100,
+        1500
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/{{ $('Config').first().json.graphApiVersion }}/{{ $('Config').first().json.instagramAccountId }}/media",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "timeout": 30000
+        },
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "specifyBody": "keypair",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "image_url",
+              "value": "={{ $json.imageUrl }}"
+            },
+            {
+              "name": "caption",
+              "value": "={{ $json.caption }}"
+            },
+            {
+              "name": "alt_text",
+              "value": "={{ $json.altText }}"
+            }
+          ]
+        }
+      },
+      "id": "f5000001-0000-4000-8000-000000000053",
+      "name": "Create Media Container",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -300,
+        2100
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 3000,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "f5000001-0000-4000-8000-000000000554",
+              "leftValue": "={{ !!$json.id && !$json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "f5000001-0000-4000-8000-000000000054",
+      "name": "Container Created?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -60,
+        2100
+      ]
+    },
+    {
+      "parameters": {
+        "resume": "timeInterval",
+        "amount": 15,
+        "unit": "seconds"
+      },
+      "id": "f5000001-0000-4000-8000-000000000055",
+      "name": "Wait 15s",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        180,
+        2100
+      ],
+      "webhookId": "f5000001-0000-4000-8000-0000000000bb"
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://graph.facebook.com/{{ $('Config').first().json.graphApiVersion }}/{{ $json.id }}?fields=status_code",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "f5000001-0000-4000-8000-000000000056",
+      "name": "Check Container Status",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        420,
+        2100
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 3000,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "f5000001-0000-4000-8000-000000000557",
+              "leftValue": "={{ $json.status_code === 'FINISHED' }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "f5000001-0000-4000-8000-000000000057",
+      "name": "Container Ready?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        660,
+        2100
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/{{ $('Config').first().json.graphApiVersion }}/{{ $('Config').first().json.instagramAccountId }}/media_publish",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "timeout": 30000
+        },
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "specifyBody": "keypair",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "creation_id",
+              "value": "={{ $('Create Media Container').first().json.id }}"
+            }
+          ]
+        }
+      },
+      "id": "f5000001-0000-4000-8000-000000000058",
+      "name": "Publish to Instagram",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        900,
+        2100
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 3000,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "f5000001-0000-4000-8000-000000000559",
+              "leftValue": "={{ !!$json.id && !$json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "f5000001-0000-4000-8000-000000000059",
+      "name": "Published?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1140,
+        2100
+      ]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://graph.facebook.com/{{ $('Config').first().json.graphApiVersion }}/{{ $json.id }}?fields=permalink",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "f5000001-0000-4000-8000-000000000060",
+      "name": "Get Post Link",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1380,
+        2100
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 3000,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const cfg = $('Config').first().json;\nconst safe = (f, d) => { try { return f(); } catch (e) { return d; } };\nconst esc = (s) => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\"/g, '&quot;');\nconst mask = (s) => String(s).replace(/Bearer\\s+\\S+/gi, 'Bearer ***').replace(/access_token=[^&\"\\s]+/gi, 'access_token=***').slice(0, 300);\nconst j = $input.item.json;\nconst prev = $prevNode.name;\nconst detail = mask(JSON.stringify(j.error || j.detail || j.message || {}));\nconst post = safe(() => $('Finalize Post').first().json, null) || safe(() => $('Attach Image').first().json, null) || {};\nconst theme = post.theme || safe(() => $('Package Post').first().json.theme, '') || '';\nconst imageUrl = post.imageUrl || '';\n\nlet kind = 'failure', title = '', text = '', link = '', color = '#d93025';\nif (prev === 'Get Post Link') {\n  kind = 'success'; color = '#188038';\n  link = j.permalink || '';\n  title = '✅ Instagram post published';\n  text = 'Theme: ' + theme + (link ? '\\nOpen: ' + link : '');\n  const sd = $getWorkflowStaticData('global');\n  sd.recentThemes = (Array.isArray(sd.recentThemes) ? sd.recentThemes : []).concat(theme).filter(Boolean).slice(-30);\n} else if (prev === 'Approved?') {\n  kind = 'skipped'; color = '#e8710a';\n  title = '⏭️ Post skipped';\n  text = (j.timedOut ? 'No decision was made in time.' : 'The post was rejected.') + ' Nothing was published. Theme: ' + theme;\n} else if (prev === 'Idea Ready?') {\n  title = '⚠️ No post today: idea step failed'; text = 'The AI did not return a usable post idea. It will try again at the next run.';\n} else if (prev === 'Image OK?') {\n  title = '⚠️ No post today: image step failed'; text = 'Image generation failed or timed out. ' + (j.imageError || '');\n} else if (prev === 'Container Created?') {\n  title = '⚠️ Instagram did not accept the post'; text = 'Check your access token, account ID and image URL. Details: ' + detail;\n} else if (prev === 'Container Ready?') {\n  title = '⚠️ Instagram is still processing the image'; text = 'Status: ' + (j.status_code || 'unknown') + '. Nothing was published. The container stays valid for 24 hours.';\n} else {\n  title = '⚠️ Publishing failed'; text = 'Instagram did not publish the post. Details: ' + detail;\n}\n\nconst emailHtml =\n  '<div style=\"font-family:Arial,Helvetica,sans-serif;max-width:520px;margin:auto;border-radius:12px;overflow:hidden;border:1px solid #eee\">' +\n  '<div style=\"background:' + color + ';color:#fff;padding:16px 20px;font-size:18px;font-weight:bold\">' + esc(title) + '</div>' +\n  (imageUrl ? '<img src=\"' + esc(imageUrl) + '\" alt=\"\" style=\"width:100%;display:block\">' : '') +\n  '<div style=\"padding:16px 20px;font-size:14px;line-height:1.5;color:#222;white-space:pre-wrap\">' + esc(text) + '</div>' +\n  (link ? '<p style=\"text-align:center;margin:0 0 18px\"><a href=\"' + esc(link) + '\" style=\"background:#833ab4;color:#fff;text-decoration:none;padding:10px 20px;border-radius:22px;display:inline-block\">Open post</a></p>' : '') + '</div>';\n\nreturn { json: { kind, title, text, link, imageUrl, ownerEmail: cfg.ownerEmail, emailSubject: title, emailHtml } };"
+      },
+      "id": "f5000001-0000-4000-8000-000000000061",
+      "name": "Compose Notice",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1640,
+        2100
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.ownerEmail }}",
+        "subject": "={{ $json.emailSubject }}",
+        "emailType": "html",
+        "message": "={{ $json.emailHtml }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "f5000001-0000-4000-8000-000000000062",
+      "name": "Email Owner",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1900,
+        2020
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const c = $('Config').first().json;\nconst out = [];\nconst https = (u) => typeof u === 'string' && /^https:\\/\\//i.test(u.trim());\nfor (const item of $input.all()) {\n  const d = item.json;\n  const plain = d.title + '\\n' + d.text + (d.link && !d.text.includes(d.link) ? '\\n' + d.link : '');\n  if (c.telegramBotToken && c.telegramChatId) {\n    const base = 'https://api.telegram.org/bot' + String(c.telegramBotToken).trim();\n    if (d.imageUrl) out.push({ json: { channel: 'telegram', url: base + '/sendPhoto', body: { chat_id: String(c.telegramChatId).trim(), photo: d.imageUrl, caption: plain.slice(0, 1000) } } });\n    else out.push({ json: { channel: 'telegram', url: base + '/sendMessage', body: { chat_id: String(c.telegramChatId).trim(), text: plain.slice(0, 4000) } } });\n  }\n  if (https(c.slackWebhookUrl) && /^https:\\/\\/hooks\\.slack\\.com\\//i.test(c.slackWebhookUrl.trim())) {\n    out.push({ json: { channel: 'slack', url: c.slackWebhookUrl.trim(), body: { text: '*' + d.title + '*\\n' + d.text + (d.link && !d.text.includes(d.link) ? '\\n<' + d.link + '|Open>' : '') } } });\n  }\n  if (https(c.teamsWebhookUrl)) {\n    const body = [{ type: 'TextBlock', text: d.title, weight: 'Bolder', size: 'Medium', wrap: true }, { type: 'TextBlock', text: d.text, wrap: true }];\n    if (d.imageUrl) body.push({ type: 'Image', url: d.imageUrl, size: 'Large' });\n    const card = { '$schema': 'http://adaptivecards.io/schemas/adaptive-card.json', type: 'AdaptiveCard', version: '1.4', body };\n    if (d.link) card.actions = [{ type: 'Action.OpenUrl', title: 'Open', url: d.link }];\n    out.push({ json: { channel: 'teams', url: c.teamsWebhookUrl.trim(), body: { type: 'message', attachments: [{ contentType: 'application/vnd.microsoft.card.adaptive', contentUrl: null, content: card }] } } });\n  }\n  if (https(c.webhookUrl)) {\n    out.push({ json: { channel: 'webhook', url: c.webhookUrl.trim(), body: { event: 'instagram.content.' + d.kind, title: d.title, text: d.text, link: d.link, imageUrl: d.imageUrl, at: new Date().toISOString() } } });\n  }\n}\nreturn out;"
+      },
+      "id": "f5000001-0000-4000-8000-000000000063",
+      "name": "Build Channel Messages",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1900,
+        2200
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $json.url }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.body) }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "id": "f5000001-0000-4000-8000-000000000064",
+      "name": "Send Channel Message",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2160,
+        2200
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 2000,
+      "onError": "continueRegularOutput"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Daily Schedule": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run Now (Test)": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Config": {
+      "main": [
+        [
+          {
+            "node": "Split Feed URLs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Feed URLs": {
+      "main": [
+        [
+          {
+            "node": "Fetch Trend Feed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Trend Feed": {
+      "main": [
+        [
+          {
+            "node": "Collect Trend Signals",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Collect Trend Signals": {
+      "main": [
+        [
+          {
+            "node": "AI Content Strategist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Content Strategist",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Content Strategist",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Content Strategist": {
+      "main": [
+        [
+          {
+            "node": "Package Post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Package Post": {
+      "main": [
+        [
+          {
+            "node": "Idea Ready?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Idea Ready?": {
+      "main": [
+        [
+          {
+            "node": "Generate Image (Flux)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Compose Notice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Image (Flux)": {
+      "main": [
+        [
+          {
+            "node": "Attach Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Attach Image": {
+      "main": [
+        [
+          {
+            "node": "Image OK?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Image OK?": {
+      "main": [
+        [
+          {
+            "node": "AI Quality Check",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Compose Notice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Quality Check": {
+      "main": [
+        [
+          {
+            "node": "Quality Gate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Quality Gate": {
+      "main": [
+        [
+          {
+            "node": "Auto Publish?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Auto Publish?": {
+      "main": [
+        [
+          {
+            "node": "Finalize Post",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Build Approval Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Approval Request": {
+      "main": [
+        [
+          {
+            "node": "Email Approval Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Build Channel Messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email Approval Request": {
+      "main": [
+        [
+          {
+            "node": "Wait for Approval",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait for Approval": {
+      "main": [
+        [
+          {
+            "node": "Decision Gate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Decision Gate": {
+      "main": [
+        [
+          {
+            "node": "Approved?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Approved?": {
+      "main": [
+        [
+          {
+            "node": "Finalize Post",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Compose Notice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Finalize Post": {
+      "main": [
+        [
+          {
+            "node": "Create Media Container",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Media Container": {
+      "main": [
+        [
+          {
+            "node": "Container Created?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Container Created?": {
+      "main": [
+        [
+          {
+            "node": "Wait 15s",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Compose Notice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 15s": {
+      "main": [
+        [
+          {
+            "node": "Check Container Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Container Status": {
+      "main": [
+        [
+          {
+            "node": "Container Ready?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Container Ready?": {
+      "main": [
+        [
+          {
+            "node": "Publish to Instagram",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Compose Notice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Publish to Instagram": {
+      "main": [
+        [
+          {
+            "node": "Published?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Published?": {
+      "main": [
+        [
+          {
+            "node": "Get Post Link",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Compose Notice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Post Link": {
+      "main": [
+        [
+          {
+            "node": "Compose Notice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compose Notice": {
+      "main": [
+        [
+          {
+            "node": "Email Owner",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Build Channel Messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Channel Messages": {
+      "main": [
+        [
+          {
+            "node": "Send Channel Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Kolkata"
+  },
+  "tags": []
+}
